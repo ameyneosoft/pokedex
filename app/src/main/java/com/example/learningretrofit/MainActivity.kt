@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +42,15 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.pokemons.observe(this) {
             val li = it?.results ?: listOf()
             pokemonGridAdapter = PokemonGridAdapter(this, li)
+            gridView.adapter = pokemonGridAdapter
+        }
+        binding.searchText.doAfterTextChanged{
+            text ->
+                val newLi =mainViewModel.pokemons.value?.results?.filter {
+                    val tex = text?: ""
+                    it.name.contains(tex,true)
+                } ?: listOf()
+            pokemonGridAdapter = PokemonGridAdapter(this, newLi)
             gridView.adapter = pokemonGridAdapter
         }
     }

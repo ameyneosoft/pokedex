@@ -13,7 +13,7 @@ class PokemonRepository (val pokemonService: PokemonService){
     val pokemonsLiveData: MutableLiveData<PokemonList> = MutableLiveData()
     suspend fun getPokemons(limit: Int, offset: Int){
 
-        val result = pokemonService.getPokemons(limit=1000)
+        val result = pokemonService.getPokemons(limit=10000)
         withContext(Dispatchers.Main){
 
         Log.d("mytag", result.body().toString())
